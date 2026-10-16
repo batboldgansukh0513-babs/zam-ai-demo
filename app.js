@@ -1,3 +1,4 @@
+const luxuryCss=document.createElement('link');luxuryCss.rel='stylesheet';luxuryCss.href='planner.css?v=luxury2';document.head.appendChild(luxuryCss);
 const screens=[...document.querySelectorAll('.screen')],steps=[...document.querySelectorAll('.steps span')],messages=document.querySelector('#messages');
 function show(id){screens.forEach(x=>x.classList.toggle('active',x.id===id));steps.forEach(x=>x.classList.toggle('active',x.dataset.step===id));document.querySelector('#stageTitle').textContent=({routes:'Таны 4 маршрут',visa:'Виз ба нэвтрэх',stay:'Байрлах ба зорчих',day:'Өдөр тутмын хөтөлбөр'})[id]}
 function message(text,kind){const el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight}
