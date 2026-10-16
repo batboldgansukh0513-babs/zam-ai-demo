@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQv3u1oS9QZSRc0Zl4h8C9Qb07Fqf6k=" crossorigin="">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="chat.css" />
 </head>
 <body>
   <header><a class="brand" href="#">ZAM<span>AI</span></a><nav><a href="#how">Хэрхэн ажиллах вэ</a><a href="#journey">Миний аялал</a></nav><button class="profile">Эхлэх →</button></header>
@@ -27,6 +28,12 @@
       </div>
       <div class="chips"><span>🛂 Виз шалгах</span><span>✈️ Тийз харьцуулах</span><span>⌖ GPS чиглүүлэх</span></div>
     </section>
+
+    <section class="chat-zone" id="chat">
+      <div class="chat-intro"><span class="eyebrow">ZAM AI CHAT</span><h2>Аяллаа яг чатлаад<br>төлөвлө.</h2><p>Хаана, хэдийд, ямар төсөвтэй явахаа л бич. Бусдыг нь ZAM AI цэгцэлнэ.</p><div class="chat-notes"><span>✦ Монгол хэлээр</span><span>✦ Маршруттай хариулт</span><span>✦ Checklist үүсгэнэ</span></div></div>
+      <div class="chat-card"><div class="chat-head"><div class="bot-dot">Z</div><div><b>ZAM AI</b><small><i></i> Аяллын туслах онлайн</small></div></div><div class="messages" id="messages"><div class="message bot">Сайн уу! Хаашаа, хэдийд, хэдэн хүн, ямар төсөвтэй аялах гэж байгаагаа бичээрэй. Би танд хамгийн тохиромжтой төлөвлөгөөг гаргая.</div></div><div class="suggestions"><button data-prompt="Улаанбаатараас Токио руу 5 хоног, 3 сая төгрөгийн төсөвтэй явмаар байна.">Япон 5 хоног</button><button data-prompt="Солонгос руу ганцаараа 4 хоног явах төлөвлөгөө гарга.">Солонгос 4 хоног</button><button data-prompt="Тайланд явахад юу бэлдэх вэ?">Юу бэлдэх вэ?</button></div><form class="chat-form" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Жишээ: 2 сая төгрөгөөр хаашаа явж болох вэ?" /><button type="submit" aria-label="Илгээх">↑</button></form><small class="chat-disclaimer">Demo хариулт · Бодит үнэ, визийн мэдээллийг албан эх сурвалжаар баталгаажуулна.</small></div>
+    </section>
+
     <section class="workspace" id="journey">
       <div class="section-head"><div><span class="eyebrow">ТАНЫ АЯЛЛЫН САМБАР</span><h2>Токио · 5 өдөр</h2></div><div class="budget">Тооцоолсон төсөв <strong>₮3,480,000</strong></div></div>
       <div class="dashboard">
@@ -39,7 +46,8 @@
         <div class="panel" id="route">
           <div class="route-top"><div><span class="tag">ХАМГИЙН ТОХИРОМЖТОЙ</span><h3>Улаанбаатар → Токио</h3><p>Шууд нислэг · 4ц 45м</p></div><button class="outline" id="locationBtn">⌖ Миний байршил</button></div>
           <div class="route-meta"><div><b>08:35</b><span>UBN</span></div><div class="flight-line"><span>✈</span><small>4ц 45м</small></div><div><b>14:20</b><span>NRT</span></div><div class="price"><small>Эхлэх үнэ</small><b>₮1,840,000</b></div></div>
-          <div id="map"></div><div class="map-actions"><span id="locationStatus">Газрын зураг дээр дараагийн цэгээ сонгоорой.</span><button id="navigateBtn">Чиглүүлэх ↗</button></div>
+          <div id="map"></div>
+          <div class="map-actions"><span id="locationStatus">Газрын зураг дээр дараагийн цэгээ сонгоорой.</span><button id="navigateBtn">Чиглүүлэх ↗</button></div>
         </div>
         <div class="panel hidden" id="visa"><span class="tag warm">АНХААРАХ</span><h3>Япон улсын виз</h3><p>Монгол Улсын энгийн паспорт эзэмшигчид урьдчилан виз мэдүүлнэ.</p><div class="info-list"><div><b>1</b> Паспорт — буцах өдрөөс хойш 6 сар хүчинтэй</div><div><b>2</b> Банкны хуулга, ажлын тодорхойлолт</div><div><b>3</b> Зочид буудал, нислэгийн захиалга</div></div><button class="plan">Албан эх сурвалж нээх →</button></div>
         <div class="panel hidden" id="days"><h3>1 дэх өдөр · Шибүяа</h3><p>Буудалдаа check-in хийсний дараа алхаж танилцах хөнгөн маршрут.</p><div class="timeline"><div><b>15:30</b><span>Shibuya Sky — хотын панорам</span></div><div><b>17:30</b><span>Shibuya Crossing ба Hachikō</span></div><div><b>19:00</b><span>Оройн хоол · Ebisu</span></div></div><button class="outline" id="dayRoute">⌖ Энэ өдрийн чиглэл</button></div>
