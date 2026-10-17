@@ -20,20 +20,24 @@ Avoid markdown tables. Keep answers under 170 Mongolian words.`;
 export default async function handler(request, response) {
   if (request.method === 'OPTIONS') return withHeaders(response).status(204).end();
   if (request.method !== 'POST') return withHeaders(response).status(405).json({ error: 'POST хүсэлт ашиглана уу.' });
-  if (!process.env.OPENAI_API_KEY) return withHeaders(response).status(503).json({ error: 'ZAM AI key тохируулаагүй байна.' });
+  const gatewayKey = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN;
+  if (!gatewayKey) return withHeaders(response).status(503).json({ error: 'Vercel AI Gateway тохируулаагүй байна.' });
 
   const message = String(request.body?.message || '').trim();
   const history = Array.isArray(request.body?.history) ? request.body.history.slice(-8) : [];
   if (!message || message.length > 1200) return withHeaders(response).status(400).json({ error: '1200 тэмдэгтээс богино асуулт бичээрэй.' });
 
   try {
-    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const client = new OpenAI({
+      apiKey: gatewayKey,
+      baseURL: 'https://ai-gateway.vercel.sh/v1',
+    });
     const input = history
       .filter(item => ['user', 'assistant'].includes(item?.role) && typeof item.content === 'string')
       .map(item => ({ role: item.role, content: item.content }))
       .concat({ role: 'user', content: message });
     const result = await client.responses.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
+      model: process.env.AI_GATEWAY_MODEL || 'google/gemini-2.5-flash-lite',
       instructions: conciergeInstructions,
       input,
       max_output_tokens: 300,
