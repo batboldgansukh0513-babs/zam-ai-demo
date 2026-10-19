@@ -77,3 +77,8 @@ header:after{content:"";position:absolute;bottom:-2px;left:18%;right:18%;height:
 header:after{background:linear-gradient(90deg,transparent,#46e4ff,#ffc34d,#ff4da1,transparent)!important;box-shadow:0 0 12px #4adfff99}.brand{background:linear-gradient(90deg,#8ef4ff,#f8d47a,#ff66b2);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:none!important}.brand i{color:inherit!important}
 @keyframes auroraDrift{from{transform:translate(-4%,-2%) scale(1.04);filter:hue-rotate(0deg)}to{transform:translate(4%,2%) scale(1.13);filter:hue-rotate(18deg)}}
 @media(prefers-reduced-motion:reduce){.chat-rail:after{animation:none}}
+
+
+/* Mulish interface typography */
+body,button,input,textarea,.bubble,.lead,.advice-card,.summary-card,.route,.decision,.pick,.timeline button,.add-stop button,.day-tabs button,.next,.trip-summary-button{font-family:Mulish,Arial,sans-serif!important}
+.mono,.eyebrow,.steps span,.route em,.selection-count,.summary-card small,.route-trace span,.checklist>span,.day-tabs button span{font-family:'DM Mono',monospace!important}
