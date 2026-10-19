@@ -22,6 +22,7 @@ Give a useful concise travel-planning answer. State that prices, visa rules and 
     if (!answer) throw new Error('Хариулт үүссэнгүй.');
     return res.status(200).json({ answer });
   } catch (error) {
+    console.error('Gemini chat request failed:', error.message || error);
     return res.status(502).json({ error: error.message || 'AI үйлчилгээ түр ажиллахгүй байна.' });
   }
 }
