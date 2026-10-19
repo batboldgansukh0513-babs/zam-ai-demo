@@ -11,7 +11,7 @@ User request: ${message}
 
 Give a useful concise travel-planning answer. State that prices, visa rules and availability must be verified on official booking/embassy sources. Do not invent exact live prices, flight schedules, visa requirements, or reservations. Ask at most one helpful follow-up question if essential. Include practical advice about transport, documents, safety, and timing where relevant.`;
   try {
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 700, temperature: 0.5 } })
