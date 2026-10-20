@@ -105,3 +105,12 @@ body,button,input,textarea,.bubble,.lead,.advice-card,.summary-card,.route,.deci
 
 /* Return-to-step navigation */
 .steps button{appearance:none;padding:7px 8px;border:1px solid transparent;background:transparent;color:#7f909a;font:9px 'DM Mono',monospace;cursor:pointer;transition:.18s ease}.steps button:hover,.steps button:focus-visible{border-color:#a88343;color:#f0cd85;outline:0}.steps button.active{border-color:#826433;background:#261f15;color:#f0cd85}
+
+/* Full-page itinerary scrolling: never clip long plans */
+html{min-height:100%;overflow-y:auto}
+body{min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
+.planner{height:auto!important;min-height:calc(100vh - 62px);align-items:start;overflow:visible}
+.journey-stage{min-height:0!important;overflow:visible!important}
+.chat-rail,.selection-rail{min-height:calc(100vh - 62px);overflow:visible}
+@media(min-width:901px){.chat-rail,.selection-rail{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto}.journey-stage{align-self:start}}
+@media(max-width:900px){.planner{min-height:0}.chat-rail,.selection-rail{min-height:0;position:static;max-height:none;overflow:visible}}
