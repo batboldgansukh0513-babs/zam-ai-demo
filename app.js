@@ -84,3 +84,34 @@ summaryButton.onclick=()=>{
   overlay.hidden=false;
   overlay.querySelector('.close-summary').onclick=()=>overlay.hidden=true;
 };
+
+
+/* Single, continuous infographic journey — replaces the card grid */
+function buildUnifiedTimelineSummary(){
+  const routeName=document.querySelector('#summaryRoute')?.textContent||'Таны сонгосон маршрут';
+  const routeDetail=document.querySelector('#summaryDetail')?.textContent||'Улаанбаатар → Токио';
+  const routePrice=moneyValue(document.querySelector('#summaryTransport')?.textContent)||0;
+  const weather=['⛅ 18° / 11° · Үүлэрхэг','☀️ 20° / 12° · Цэлмэг','🌦️ 17° / 11° · Шиврээ','☀️ 19° / 12° · Цэлмэг'];
+  const dayTitles=['Ирсэн өдөр · Shibuya','Harajuku + Shibuya','Урлаг ба хоол','Буцах өдөр'];
+  const travelBreaks=['Нарита → Shibuya · Airport Express','Shibuya → Harajuku · метро + явган','Harajuku → Asakusa · Ginza Line','Токио → Нарита · Airport Express'];
+  let daily='';
+  Object.entries(dayPrograms).forEach(([day,program])=>{
+    const chosen=new Set(daySelections[day]||[]);
+    daily+='<div class="timeline-day-label"><span>ӨДӨР '+String(day).padStart(2,'0')+'</span><b>'+dayTitles[Number(day)-1]+'</b><em>'+weather[Number(day)-1]+'</em></div>';
+    program.stops.forEach((stop,index)=>{
+      const isChosen=chosen.has(stop[1]);
+      const transport=(dayTransports[day]||{})[stop[1]]||stop[2];
+      daily+='<article class="journey-event '+(isChosen?'chosen':'proposal')+'"><div class="journey-time">'+summaryEscape(stop[0])+'</div><div class="journey-pin"><i>'+summaryEscape(stop[4])+'</i></div><div class="journey-copy"><div><span>'+ (isChosen?'ТАНЫ СОНГОЛТ':'НЭМЭХ САНАЛ') +'</span><b>'+summaryEscape(stop[1])+'</b></div><p>'+summaryEscape(transport)+'</p></div><strong>'+summaryEscape(stop[3])+'</strong></article>';
+      if(index<program.stops.length-1) daily+='<div class="journey-transfer"><i>↓</i><span>'+summaryEscape(transport)+'</span></div>';
+    });
+    if(Number(day)<4)daily+='<div class="journey-transfer day-shift"><i>✦</i><span>'+travelBreaks[Number(day)-1]+'</span></div>';
+  });
+  const total=routePrice+(budgetState.stay||0)+(budgetState.day||0)+118000;
+  return '<div class="summary-panel summary-panel-full summary-timeline-panel"><button class="close-summary" aria-label="Хаах">×</button><header class="timeline-summary-head"><span class="eyebrow">ZAM AI · TRIP FLOW</span><h2>Таны аяллын<br><em>нэг урсгал.</em></h2><p>'+summaryEscape(routeName)+' · '+summaryEscape(routeDetail)+'</p><div class="timeline-summary-stats"><span><small>НИЙТ ТООЦОО</small><b>'+displayMoney(total)+'</b></span><span><small>ӨДӨР</small><b>04</b></span><span><small>СОНГОСОН ЦЭГ</small><b>'+Object.values(daySelections).flat().length+'</b></span></div></header><section class="unified-timeline"><article class="journey-event journey-major start"><div class="journey-time">ЭХЛЭЛ</div><div class="journey-pin"><i>⌂</i></div><div class="journey-copy"><span>ОДОО ХИЙХ ЗҮЙЛ</span><b>Улаанбаатар · Чингис хаан ОУБ</b><p>Онлайн check-in → ачаа → аюулгүй шалгалт → гарц</p></div><strong>Паспорт + виз</strong></article><div class="journey-transfer flight"><i>✈</i><span>Нислэг · '+summaryEscape(routeDetail)+'</span></div><article class="journey-event journey-major"><div class="journey-time">ИРЭЛТ</div><div class="journey-pin"><i>⌁</i></div><div class="journey-copy"><span>ХОТ РУУ ОРОХ</span><b>Токио · нисэх буудал</b><p>Airport Express-аар буудал руу → Suica / eSIM идэвхжүүлнэ.</p></div><strong>₮118,000</strong></article>'+daily+'<div class="journey-transfer flight return"><i>✈</i><span>Буцах нислэг · check-in-ээ дахин баталгаажуулна</span></div><article class="journey-event journey-major finish"><div class="journey-time">ДУУСАВ</div><div class="journey-pin"><i>★</i></div><div class="journey-copy"><span>АЯЛЛЫН ТӨГСГӨЛ</span><b>Токио → Улаанбаатар</b><p>Баримт, төлбөр, явах цаг болон буудлын ачаагаа урьдчилж шалгана.</p></div><strong>Safe trip</strong></article></section><footer class="timeline-summary-footer"><div><b>Тайлбар</b><span><i class="legend-picked"></i> Сонгосон цэг</span><span><i class="legend-proposal"></i> Нэмэх санал</span></div><p>Үнэ, цаг, нээлтийн нөхцөлийг тухайн өдрийн бодит нөхцөлтэй уялдуулж операторын эх сурвалжаас баталгаажуулна.</p></footer></div>';
+}
+summaryButton.onclick=()=>{
+  const overlay=document.querySelector('#tripSummary');
+  overlay.innerHTML=buildUnifiedTimelineSummary();
+  overlay.hidden=false;
+  overlay.querySelector('.close-summary').onclick=()=>overlay.hidden=true;
+};
