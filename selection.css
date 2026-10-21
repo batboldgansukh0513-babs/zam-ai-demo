@@ -191,3 +191,5 @@ body{min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
   .legacy-chat #chatForm button{height:35px;width:35px}
   .chat-rail>.disclaimer{display:none}
 }
+
+@media(min-width:901px){.search-field input,.search-field select{height:34px}.chat-rail>.rail-top .search-panel{padding-top:14px;padding-bottom:12px}}
