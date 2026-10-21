@@ -283,3 +283,5 @@ header .brand{letter-spacing:.13em;font-weight:800;color:#fff} header .brand i{c
 
 /* Keep one complete character visible in the empty right-side stage area. */
 .stage-character{z-index:5!important}.screen.active>.eyebrow,.screen.active>h3,.screen.active>.lead,.screen.active>.decision-grid,.screen.active>.seller-compare,.screen.active>.stay-grid,.screen.active>.itinerary-head,.screen.active>.day-tabs,.screen.active>.day-meta,.screen.active>.day-layout,.screen.active>.advice-card,.screen.active>.final-note,.stage-top{z-index:6!important}
+
+.stage-character{filter:drop-shadow(0 17px 18px rgba(0,0,0,.34)) brightness(1.24) saturate(1.12)!important}
