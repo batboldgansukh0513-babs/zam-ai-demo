@@ -52,3 +52,35 @@ const placesTrack=document.querySelector('#placesTrack');document.querySelector(
 initChatHistory();setStay();setPlans();
 const tokyo=[35.6762,139.6503],map=L.map('mapMini',{zoomControl:false,attributionControl:false}).setView(tokyo,12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);L.marker(tokyo).addTo(map).bindPopup('Таны буудал').openPopup();L.circle([35.6595,139.7005],{radius:700,color:'#bd9253',fillColor:'#bd9253',fillOpacity:.22}).addTo(map);
 
+
+
+/* Unified travel summary: route, daily program, transport and costs */
+function summaryEscape(value){return String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+function buildFullTripSummary(){
+  const routeName=document.querySelector('#summaryRoute')?.textContent||'Таны сонгосон маршрут';
+  const routeDetail=document.querySelector('#summaryDetail')?.textContent||'Улаанбаатар → Токио';
+  const routePrice=moneyValue(document.querySelector('#summaryTransport')?.textContent)||0;
+  const weather=['⛅ 18° / 11° · Үүлэрхэг','☀️ 20° / 12° · Цэлмэг','🌦️ 17° / 11° · Шиврээ','☀️ 19° / 12° · Цэлмэг'];
+  const titles=['Ирсэн өдөр · Shibuya','Harajuku + Shibuya','Урлаг ба хоол','Буцах өдөр'];
+  const dateHints=['Нисэх буудал → буудал','Сүм, гудамж, sunset','Asakusa → Toyosu','Ginza → Narita'];
+  const days=Object.entries(dayPrograms).map(([day,program])=>{
+    const chosen=new Set(daySelections[day]||[]);
+    const entries=program.stops.map(stop=>{
+      const picked=chosen.has(stop[1]);
+      const selectedTransport=(dayTransports[day]||{})[stop[1]]||stop[2];
+      return '<li class="summary-stop '+(picked?'is-picked':'')+'"><time>'+summaryEscape(stop[0])+'</time><i>'+summaryEscape(stop[4])+'</i><div><b>'+summaryEscape(stop[1])+'</b><small>'+summaryEscape(selectedTransport)+'</small></div><em>'+summaryEscape(stop[3])+'</em><span>'+ (picked?'Сонгосон':'Санал') +'</span></li>';
+    }).join('');
+    return '<article class="day-route-card"><header><div><span>ӨДӨР '+String(day).padStart(2,'0')+'</span><h3>'+titles[Number(day)-1]+'</h3><small>'+dateHints[Number(day)-1]+' · '+program.travel+'</small></div><div class="summary-weather">'+weather[Number(day)-1]+'</div></header><ol>'+entries+'</ol></article>';
+  }).join('');
+  const stayValue=budgetState.stay||0;
+  const dayValue=budgetState.day||0;
+  const transfer=118000;
+  const total=routePrice+stayValue+dayValue+transfer;
+  return '<div class="summary-panel summary-panel-full"><button class="close-summary" aria-label="Хаах">×</button><div class="summary-hero"><div><span class="eyebrow">ZAM AI · ТАНЫ НЭГДСЭН АЯЛЛЫН ЗУРАГЛАЛ</span><h2>Нэг харцаар<br><em>бүх аялал.</em></h2><p>'+summaryEscape(routeName)+' · '+summaryEscape(routeDetail)+'</p></div><div class="summary-status"><span>ЯВАХ ХЭЛБЭР</span><b>'+summaryEscape(routeDetail)+'</b><small>Цаг, суудал, хил нэвтрэх нөхцөлийг захиалахдаа дахин баталгаажуулна.</small></div></div><section class="summary-flow"><div class="flow-node active"><i>⌂</i><b>Улаанбаатар</b><small>Бэлтгэл</small></div><div class="flow-leg"><i>✈</i><span>Check-in · нислэг</span></div><div class="flow-node"><i>⌁</i><b>Дамжин суух</b><small>Хэрэв сонгосон бол</small></div><div class="flow-leg"><i>✈</i><span>Arrival · airport rail</span></div><div class="flow-node"><i>⌂</i><b>Токио</b><small>Буудал + Suica</small></div><div class="flow-leg"><i>▣</i><span>Метро · явган</span></div><div class="flow-node gold"><i>★</i><b>4 өдрийн plan</b><small>Таны сонголтууд</small></div></section><section class="summary-dashboard"><article class="summary-now"><span>ОДОО ХААНААС ЭХЛЭХ ВЭ?</span><div><i>✈</i><div><b>Чингис хаан олон улсын нисэх буудал</b><p>Онлайн check-in → ачаа → аюулгүй шалгалт → гарц. Паспорт, виз, даатгалаа гар доороо бэлдээрэй.</p></div></div></article><article class="summary-total"><span>ТООЦООЛСОН НИЙТ</span><b>'+displayMoney(total)+'</b><small>Маршрут '+displayMoney(routePrice)+' · тээвэр '+displayMoney(transfer)+' · буудал '+displayMoney(stayValue)+' · өдөр тутмын plan '+displayMoney(dayValue)+'</small></article></section><section class="summary-itinerary"><div class="summary-itinerary-head"><div><span class="eyebrow">DAY-BY-DAY · LIVE PLAN</span><h3>Өдөр бүрийн <em>маршрут.</em></h3><p>Алтан хүрээтэй нь таны одоогоор сонгосон цэг. Бусад нь хөтөлбөрт нэмэх санал хэвээр байна.</p></div><div class="summary-key"><i></i> Сонгосон цэг <i></i> Санал болгосон цэг</div></div><div class="summary-days">'+days+'</div></section><section class="summary-prep"><div><span class="eyebrow">BEFORE YOU GO</span><h3>Явахын өмнөх <em>checklist.</em></h3></div><ul><li>✓ Паспортын хүчинтэй хугацаа · 6+ сар</li><li>✓ Виз болон дамжин өнгөрөх нөхцөл</li><li>○ Онлайн check-in ба ачааны дүрэм</li><li>○ eSIM, Suica, карт / бэлэн мөнгө</li></ul></section></div>';
+}
+summaryButton.onclick=()=>{
+  const overlay=document.querySelector('#tripSummary');
+  overlay.innerHTML=buildFullTripSummary();
+  overlay.hidden=false;
+  overlay.querySelector('.close-summary').onclick=()=>overlay.hidden=true;
+};
