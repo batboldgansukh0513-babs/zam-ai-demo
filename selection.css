@@ -157,3 +157,9 @@ body{min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
 .legacy-chat .assistant{margin-bottom:13px}.legacy-chat .chat-history{max-height:132px}.legacy-chat .messages{max-height:230px;min-height:78px}.legacy-chat .chat-history-head{margin-top:0}.legacy-chat #chatForm{margin-top:12px}.legacy-chat .prompt-row{margin-top:10px}
 .rail-top .search-panel{margin-top:22px}
 @media(max-width:900px){.legacy-chat{margin:18px 14px 0;padding:18px 0 0}.legacy-chat .chat-box{padding:15px}.rail-top .search-panel{margin-top:16px}}
+
+
+/* Search-first rail: the retired hero is intentionally removed */
+.chat-rail>.rail-top{margin:0!important;padding:0!important}
+.chat-rail>.rail-top .search-panel{margin-top:0!important}
+@media(max-width:900px){.chat-rail>.rail-top .search-panel{margin:0 14px!important}}
