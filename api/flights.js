@@ -13,7 +13,7 @@ export default async function handler(req,res){
   if(!origin||!destination)return res.status(400).json({error:'Одоогоор Улаанбаатар (UBN), Токио (TYO), Сөүл (SEL), Бээжин (BJS), Бангкок (BKK), Истанбул (IST), Хөх хот (HET), Хонг Конг (HKG) чиглэлийг хайж болно. IATA 3 үсэгт код мөн ашиглаж болно.'});
   const departure=String(req.query.departure||'').slice(0,10);
   const returnDate=String(req.query.returnDate||'').slice(0,10);
-  const params=new URLSearchParams({origin,destination,one_way:returnDate?'false':'true',sorting:'price',trip_class:'0',currency:'usd',limit:'20',page:'1',period_type:'month',beginning_of_period:departure||new Date().toISOString().slice(0,10)});
+  const params=new URLSearchParams({origin,destination,one_way:returnDate?'false':'true',sorting:'price',trip_class:'0',currency:'usd',limit:'20',page:'1',period_type:'month',beginning_of_period:(departure?departure.slice(0,7)+'-01':new Date().toISOString().slice(0,7)+'-01')});
   if(returnDate)params.set('return_date',returnDate);
   try{
     const response=await fetch('https://api.travelpayouts.com/v2/prices/latest?'+params,{headers:{'X-Access-Token':token,'Accept':'application/json'}});
