@@ -127,3 +127,12 @@ function openUnifiedTripFlow(){
 }
 summaryButton.onclick=openUnifiedTripFlow;
 document.querySelector('#openSummary').onclick=openUnifiedTripFlow;
+
+
+/* Google Maps embed for the daily travel overview (no API key needed for this demo) */
+function renderGoogleTravelMap(){
+  const map=document.querySelector('#mapMini');
+  if(!map)return;
+  map.innerHTML='<iframe class="google-travel-map" title="Токиогийн аяллын газрын зураг" src="https://www.google.com/maps?q=Tokyo%20Japan&z=12&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><a class="google-map-open" href="https://www.google.com/maps/dir/?api=1&destination=Tokyo%2C%20Japan&travelmode=transit" target="_blank" rel="noopener noreferrer">Google Maps дээр чиглэл харах <span>↗</span></a>';
+}
+renderGoogleTravelMap();
