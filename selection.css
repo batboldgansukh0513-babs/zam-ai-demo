@@ -270,3 +270,11 @@ header .brand{letter-spacing:.13em;font-weight:800;color:#fff} header .brand i{c
 @keyframes guideOrbit{to{transform:rotate(360deg)}}
 @media(max-width:1180px){.travel-guide-scene{right:9vw;opacity:.72}.travel-guide-scene[data-pose="visa"]{right:15vw}.travel-guide-scene[data-pose="day"]{right:16vw}}
 @media(max-width:900px){.travel-guide-scene{display:none}}
+
+/* The illustration intentionally passes behind and in front of the choice copy. */
+.travel-guide-scene{z-index:1}
+.travel-guide-foreground-layer{z-index:14!important}
+.travel-guide-foreground-layer:before{display:none}
+.travel-guide-foreground-layer .travel-guide-front{display:block!important}
+.travel-guide-foreground-layer .travel-guide-back,.travel-guide-foreground-layer .travel-guide-orbit{display:none!important}
+.screen.active>.eyebrow,.screen.active>h3,.screen.active>.lead,.screen.active>.decision-grid,.screen.active>.seller-compare,.screen.active>.stay-grid,.screen.active>.itinerary-head,.screen.active>.day-tabs,.screen.active>.day-meta,.screen.active>.day-layout,.screen.active>.advice-card,.screen.active>.final-note,.stage-top{position:relative;z-index:4}
