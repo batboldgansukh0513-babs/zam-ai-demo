@@ -163,3 +163,31 @@ body{min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
 .chat-rail>.rail-top{margin:0!important;padding:0!important}
 .chat-rail>.rail-top .search-panel{margin-top:0!important}
 @media(max-width:900px){.chat-rail>.rail-top .search-panel{margin:0 14px!important}}
+
+
+/* Compact desktop rail: search and assistant are visible together */
+@media(min-width:901px){
+  .chat-rail>.rail-top .search-panel{padding:16px 16px 14px}
+  .search-panel h2{margin:4px 0 8px;font-size:21px}
+  .search-panel>p{display:none}
+  .trip-search{gap:7px}
+  .search-field{gap:3px;font-size:9px}
+  .search-field input,.search-field select{height:36px;padding:0 10px;font-size:12px}
+  .search-submit{height:39px;margin-top:1px;font-size:12px}
+  .provider-quick{margin-top:11px;padding-top:9px}
+  .provider-quick small{margin-bottom:5px}
+  .provider-quick b{padding:4px 7px;font-size:9px}
+  .search-note{display:none}
+  .legacy-chat{margin-top:11px;padding-top:11px}
+  .legacy-chat .chat-box{padding:12px}
+  .legacy-chat .assistant{margin-bottom:8px}
+  .legacy-chat .chat-history{max-height:52px;padding:4px 6px}
+  .legacy-chat .chat-history-head{padding:6px 8px 4px}
+  .legacy-chat .messages{min-height:42px;max-height:54px}
+  .legacy-chat .prompt-row{margin-top:7px}
+  .legacy-chat .prompt-row button{padding:5px 7px;font-size:9px}
+  .legacy-chat #chatForm{margin-top:8px}
+  .legacy-chat #chatForm input{height:35px}
+  .legacy-chat #chatForm button{height:35px;width:35px}
+  .chat-rail>.disclaimer{display:none}
+}
