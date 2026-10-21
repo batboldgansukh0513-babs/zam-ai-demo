@@ -9,7 +9,12 @@ travelGuide.dataset.pose='routes';
 travelGuide.setAttribute('aria-hidden','true');
 travelGuide.innerHTML='<i class="travel-guide-back"></i><i class="travel-guide-front"></i><i class="travel-guide-orbit"></i>';
 document.querySelector('.planner').appendChild(travelGuide);
-function setGuidePose(id){travelGuide.dataset.pose=id;travelGuide.classList.remove('is-transitioning');void travelGuide.offsetWidth;travelGuide.classList.add('is-transitioning')}
+const travelGuideFront=travelGuide.cloneNode(true);
+travelGuideFront.classList.add('travel-guide-foreground-layer');
+travelGuideFront.querySelector('.travel-guide-back')?.remove();
+travelGuideFront.querySelector('.travel-guide-orbit')?.remove();
+document.querySelector('.planner').appendChild(travelGuideFront);
+function setGuidePose(id){[travelGuide,travelGuideFront].forEach(layer=>{layer.dataset.pose=id;layer.classList.remove('is-transitioning');void layer.offsetWidth;layer.classList.add('is-transitioning')})}
 function show(id){screens.forEach(x=>x.classList.toggle('active',x.id===id));steps.forEach(x=>x.classList.toggle('active',x.dataset.step===id));document.querySelector('#stageTitle').textContent=({routes:'Танд тохирсон маршрут',visa:'Виз ба нэвтрэх',stay:'Байрлах ба зорчих',day:'Өдөр тутмын хөтөлбөр'})[id];currentSummary(({routes:0,visa:1,stay:2,day:3})[id]);setGuidePose(id);if(id==='day'){prepareDay(activeDay);renderDay(activeDay)}}
 const chatStoreKey='zam-chat-history-v1',activeChatKey='zam-active-chat-v1',chatGreeting='Сайн уу. Хаашаа, хэдэн хүн, ямар төсөвтэй явахаа бичээрэй.';let chatThreads=[],activeChatId='';
 function saveChats(){try{chatThreads=chatThreads.slice(0,20);localStorage.setItem(chatStoreKey,JSON.stringify(chatThreads));localStorage.setItem(activeChatKey,activeChatId)}catch(e){}}
