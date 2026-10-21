@@ -115,3 +115,15 @@ summaryButton.onclick=()=>{
   overlay.hidden=false;
   overlay.querySelector('.close-summary').onclick=()=>overlay.hidden=true;
 };
+
+
+/* Summary controls stay visible and always open at the start of the trip flow */
+function openUnifiedTripFlow(){
+  const overlay=document.querySelector('#tripSummary');
+  overlay.innerHTML=buildUnifiedTimelineSummary();
+  overlay.scrollTop=0;
+  overlay.hidden=false;
+  overlay.querySelector('.close-summary').onclick=()=>overlay.hidden=true;
+}
+summaryButton.onclick=openUnifiedTripFlow;
+document.querySelector('#openSummary').onclick=openUnifiedTripFlow;
