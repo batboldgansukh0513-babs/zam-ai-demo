@@ -1,0 +1,21 @@
+/* Soft anime bubble visual system — matches the travel character artwork */
+:root{--bubble-deep:#12162d;--bubble-indigo:#27275e;--bubble-lilac:#af93ff;--bubble-blue:#85d8ff;--bubble-gold:#ffcf7a}
+body{background:radial-gradient(ellipse at 72% 6%,#3d347747 0,transparent 36%),radial-gradient(ellipse at 16% 71%,#164e7345 0,transparent 40%),linear-gradient(145deg,#0c1020,#161534 56%,#15152a)!important}
+body:before{opacity:.65!important;background:radial-gradient(circle at 72% 22%,#906eff1a,transparent 24%),radial-gradient(circle at 20% 76%,#72d9ff17,transparent 28%)!important}
+header{background:#101426bb!important;border-bottom:1px solid #ffffff18!important;backdrop-filter:blur(20px)!important}
+.search-panel,.chat-rail,.selection-rail,.stage-top,.route-intro,.seller-card,.decision,.pick,.advice-card,.map-card,.timeline,.trip-pulse,.final-note{border-radius:26px!important;border:1px solid #ffffff1a!important;box-shadow:0 18px 55px #03061238!important}
+.search-panel,.chat-rail,.selection-rail{background:linear-gradient(145deg,#1c2240d9,#101427e8)!important}
+.route-intro{background:radial-gradient(circle at 76% 28%,#7258c03d,transparent 34%),linear-gradient(135deg,#1c3150,#27204a 80%)!important}
+.seller-card,.decision,.pick,.advice-card,.map-card,.timeline,.final-note{background:linear-gradient(145deg,#ffffff12,#ffffff08)!important}
+button,.seller-book,.decision,.pick,.day-tabs button,.auth-submit{border-radius:999px!important}
+.decision:hover,.pick:hover,.seller-card:hover{transform:translateY(-4px) scale(1.01)!important;border-color:#b9a5ff99!important;box-shadow:0 18px 42px #7669ff35!important}
+.stage-top,.selection-head{border-radius:23px!important}
+.budget-card{border-radius:25px!important;background:linear-gradient(135deg,#ccecff,#bd9dff)!important;box-shadow:0 16px 42px #87caff35!important}
+#restart{display:none!important}
+.final-note{margin-top:34px!important;padding:30px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:16px!important;background:radial-gradient(circle at 50% 0,#aa93ff37,transparent 46%),linear-gradient(145deg,#1a2042,#241b4b)!important}
+.final-note>div{text-align:center!important}
+.finish-trip-cta{display:flex!important;align-items:center!important;justify-content:center!important;min-width:min(100%,380px)!important;padding:19px 32px!important;border:1px solid #fff6!important;border-radius:999px!important;background:linear-gradient(100deg,#83dafe,#a986ff 56%,#ffc978)!important;color:#101326!important;font:800 15px Mulish,Arial!important;letter-spacing:.03em!important;box-shadow:0 12px 35px #8f78ff70,0 0 0 7px #ffffff0b!important;animation:finishPulse 2.7s ease-in-out infinite!important}
+.finish-trip-cta:hover{transform:translateY(-3px) scale(1.035)!important;filter:brightness(1.08)}
+@keyframes finishPulse{50%{box-shadow:0 15px 42px #a58cff95,0 0 0 12px #ffffff0c}}
+.bubble{border-radius:18px!important}.bubble.assistant{background:linear-gradient(135deg,#26365c,#22244b)!important}.bubble.user{background:linear-gradient(135deg,#8cddff,#a992ff)!important;color:#101326!important}
+@media(max-width:900px){.search-panel,.chat-rail,.selection-rail,.route-intro{border-radius:22px!important}.finish-trip-cta{width:100%;min-width:0!important}}
