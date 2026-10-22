@@ -67,3 +67,68 @@ header .brand.brand-mascot img{
 @media (max-width:620px){
   header .brand.brand-mascot{width:38px!important;height:38px!important;min-width:38px!important}
 }
+
+
+/* Keep the itinerary-summary header independent from the site navigation header. */
+.summary-overlay .summary-timeline-panel{
+  width:min(100%,1000px)!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+.summary-overlay .summary-timeline-panel > header.timeline-summary-head,
+.summary-overlay header.timeline-summary-head{
+  display:block!important;
+  position:relative!important;
+  top:auto!important;
+  inset:auto!important;
+  z-index:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  width:auto!important;
+  box-sizing:border-box!important;
+  margin:0 -54px 24px!important;
+  padding:46px 54px 28px!important;
+  overflow:visible!important;
+  background:radial-gradient(circle at 88% 0,#6a4c30 0,transparent 32%),linear-gradient(115deg,#14221d,#26372e)!important;
+  border:0!important;
+  border-bottom:1px solid rgba(231,205,154,.24)!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  color:#f8f0dd!important;
+}
+.summary-overlay header.timeline-summary-head::after{display:none!important}
+.summary-overlay header.timeline-summary-head h2{
+  display:block!important;
+  max-width:calc(100% - 46px)!important;
+  margin:8px 0!important;
+  color:#fff4df!important;
+  font-size:52px!important;
+  line-height:1.05!important;
+  overflow-wrap:anywhere!important;
+}
+.summary-overlay header.timeline-summary-head p{display:block!important;margin:0!important}
+.summary-overlay .timeline-summary-stats{
+  display:flex!important;
+  align-items:flex-start!important;
+  flex-wrap:wrap!important;
+  max-width:100%!important;
+}
+.summary-overlay .summary-timeline-panel .close-summary{
+  position:absolute!important;
+  top:18px!important;
+  right:18px!important;
+  float:none!important;
+  margin:0!important;
+}
+@media(max-width:700px){
+  .summary-overlay .summary-timeline-panel > header.timeline-summary-head,
+  .summary-overlay header.timeline-summary-head{
+    margin:0 -17px 20px!important;
+    padding:34px 27px 24px!important;
+  }
+  .summary-overlay header.timeline-summary-head h2{
+    max-width:calc(100% - 40px)!important;
+    font-size:39px!important;
+  }
+  .summary-overlay .summary-timeline-panel .close-summary{top:12px!important;right:12px!important}
+}
