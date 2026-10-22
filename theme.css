@@ -22,3 +22,5 @@ button,.seller-book,.decision,.pick,.day-tabs button,.auth-submit{border-radius:
 
 /* Keep the decorative character clear of all copy and controls. */
 .stage-character{width:188px!important;height:276px!important;right:25.5vw!important;top:218px!important;opacity:.9!important}.stage-character[data-pose="routes"]{width:198px!important;height:292px!important;right:25.5vw!important;top:204px!important}.stage-character[data-pose="visa"]{width:168px!important;height:238px!important;right:26vw!important;top:262px!important}.stage-character[data-pose="stay"]{width:168px!important;height:238px!important;right:25.5vw!important;top:278px!important}.stage-character[data-pose="day"]{width:174px!important;height:250px!important;right:25.5vw!important;top:274px!important}@media(max-width:1180px){.stage-character{opacity:.6!important;right:15vw!important}}
+/* Temporary clean mode: hide all decorative people and prevent any visual overlap. */
+.stage-character,.travel-guide-scene,.route-intro:after,.journey-explorer:after{display:none!important}
