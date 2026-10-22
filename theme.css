@@ -19,3 +19,6 @@ button,.seller-book,.decision,.pick,.day-tabs button,.auth-submit{border-radius:
 @keyframes finishPulse{50%{box-shadow:0 15px 42px #a58cff95,0 0 0 12px #ffffff0c}}
 .bubble{border-radius:18px!important}.bubble.assistant{background:linear-gradient(135deg,#26365c,#22244b)!important}.bubble.user{background:linear-gradient(135deg,#8cddff,#a992ff)!important;color:#101326!important}
 @media(max-width:900px){.search-panel,.chat-rail,.selection-rail,.route-intro{border-radius:22px!important}.finish-trip-cta{width:100%;min-width:0!important}}
+
+/* Keep the decorative character clear of all copy and controls. */
+.stage-character{width:188px!important;height:276px!important;right:25.5vw!important;top:218px!important;opacity:.9!important}.stage-character[data-pose="routes"]{width:198px!important;height:292px!important;right:25.5vw!important;top:204px!important}.stage-character[data-pose="visa"]{width:168px!important;height:238px!important;right:26vw!important;top:262px!important}.stage-character[data-pose="stay"]{width:168px!important;height:238px!important;right:25.5vw!important;top:278px!important}.stage-character[data-pose="day"]{width:174px!important;height:250px!important;right:25.5vw!important;top:274px!important}@media(max-width:1180px){.stage-character{opacity:.6!important;right:15vw!important}}
