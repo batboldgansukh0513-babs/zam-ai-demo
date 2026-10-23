@@ -17,17 +17,29 @@
   const flightCard=o=>'<article class="live-offer"><div><b>'+safe(o.airline||'Нислэг')+(o.flightNumber?' · '+safe(o.flightNumber):'')+'</b><small>'+safe(o.origin)+' → '+safe(o.destination)+' · '+Number(o.stops||0)+' дамжих</small></div><strong>'+money(o.price,o.currency)+'</strong><span>'+safe(o.foundAt||'сая')+'</span></article>';
   const hotelCard=o=>'<article class="live-offer hotel-offer"><div><b>'+safe(o.name)+'</b><small>'+(o.rating?safe(o.rating)+' ★ · ':'')+safe(o.room||'Өрөө')+(o.board?' · '+safe(o.board):'')+'</small><em>'+safe(o.cancellation||'Нөхцөлийг захиалахаас өмнө шалгана уу.')+'</em></div><strong>'+money(o.price,o.currency)+'</strong><span>'+safe(o.payment||'Үнэ')+'</span></article>';
   const updateSellerCards=(offers)=>{
-    const cards=[['trip',offers[0]],['tapa',offers[1]||offers[0]]];
-    cards.forEach(([prefix,offer],idx)=>{
-      const price=$(prefix+'OfferPrice'), currency=$(prefix+'OfferCurrency'), checked=$(prefix+'OfferChecked');
-      const brand=$(prefix+'OfferBrand'), source=$(prefix+'OfferSource');
-      if(!offer){if(price)price.textContent='Санал олдсонгүй';return;}
+    for(let i=1;i<=4;i++){
+      const offer=offers[i-1];
+      const price=$('sellerOfferPrice'+i), meta=$('sellerOfferMeta'+i), checked=$('sellerOfferChecked'+i);
+      const brand=$('sellerOfferBrand'+i), source=$('sellerOfferSource'+i), terms=$('sellerOfferTerms'+i);
+      const link=$('sellerOfferLink'+i), card=$('sellerCard'+i);
+      if(!offer){
+        if(price)price.textContent='Санал олдсонгүй';
+        if(meta)meta.textContent='Энэ хайлтад 4 дэх бодит санал ирсэнгүй';
+        if(checked)checked.textContent='—';
+        if(terms)terms.textContent='Үнэ зохиож харуулахгүй.';
+        if(card)card.classList.add('seller-empty');
+        continue;
+      }
+      if(card)card.classList.remove('seller-empty');
+      const seller=(offer.gate||offer.airline||'AVIASALES').toUpperCase();
+      if(brand)brand.textContent=seller;
+      if(source)source.textContent=offer.gate?'Travelpayouts · '+offer.gate:'Travelpayouts / Aviasales · live offer';
       if(price)price.textContent=money(offer.price,offer.currency);
-      if(currency)currency.textContent=(offer.origin||'')+' → '+(offer.destination||'')+' · '+(offer.stops||0)+' дамжих';
+      if(meta)meta.textContent=(offer.origin||'')+' → '+(offer.destination||'')+' · '+(offer.stops||0)+' дамжих';
       if(checked)checked.textContent='API · '+(offer.foundAt||'сая');
-      if(brand)brand.textContent=idx===0?'LIVE':(offer.gate||'AVIASALES').toUpperCase();
-      if(source)source.textContent=idx===0?'Travelpayouts / Aviasales':(offer.gate?'Захиалгын суваг: '+offer.gate:'Travelpayouts-ийн бодит санал');
-    });
+      if(terms)terms.textContent=(offer.flightNumber?'Нислэг '+offer.flightNumber+'. ':'')+'Эцсийн үнэ, ачаа, буцаалтыг захиалахын өмнө баталгаажуулна.';
+      if(link)link.href='https://www.aviasales.com/';
+    }
   };
   async function searchLive(){
     const origin=$('searchFrom')?.value?.trim(), city=$('searchTo')?.value?.trim();
