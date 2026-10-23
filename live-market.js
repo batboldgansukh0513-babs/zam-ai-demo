@@ -16,6 +16,19 @@
   };
   const flightCard=o=>'<article class="live-offer"><div><b>'+safe(o.airline||'Нислэг')+(o.flightNumber?' · '+safe(o.flightNumber):'')+'</b><small>'+safe(o.origin)+' → '+safe(o.destination)+' · '+Number(o.stops||0)+' дамжих</small></div><strong>'+money(o.price,o.currency)+'</strong><span>'+safe(o.foundAt||'сая')+'</span></article>';
   const hotelCard=o=>'<article class="live-offer hotel-offer"><div><b>'+safe(o.name)+'</b><small>'+(o.rating?safe(o.rating)+' ★ · ':'')+safe(o.room||'Өрөө')+(o.board?' · '+safe(o.board):'')+'</small><em>'+safe(o.cancellation||'Нөхцөлийг захиалахаас өмнө шалгана уу.')+'</em></div><strong>'+money(o.price,o.currency)+'</strong><span>'+safe(o.payment||'Үнэ')+'</span></article>';
+  const updateSellerCards=(offers)=>{
+    const cards=[['trip',offers[0]],['tapa',offers[1]||offers[0]]];
+    cards.forEach(([prefix,offer],idx)=>{
+      const price=$(prefix+'OfferPrice'), currency=$(prefix+'OfferCurrency'), checked=$(prefix+'OfferChecked');
+      const brand=$(prefix+'OfferBrand'), source=$(prefix+'OfferSource');
+      if(!offer){if(price)price.textContent='Санал олдсонгүй';return;}
+      if(price)price.textContent=money(offer.price,offer.currency);
+      if(currency)currency.textContent=(offer.origin||'')+' → '+(offer.destination||'')+' · '+(offer.stops||0)+' дамжих';
+      if(checked)checked.textContent='API · '+(offer.foundAt||'сая');
+      if(brand)brand.textContent=idx===0?'LIVE':(offer.gate||'AVIASALES').toUpperCase();
+      if(source)source.textContent=idx===0?'Travelpayouts / Aviasales':(offer.gate?'Захиалгын суваг: '+offer.gate:'Travelpayouts-ийн бодит санал');
+    });
+  };
   async function searchLive(){
     const origin=$('searchFrom')?.value?.trim(), city=$('searchTo')?.value?.trim();
     const departure=dateValue('searchDepart'), returnDate=dateValue('searchReturn'), adults=$('searchTravelers')?.value||'1';
@@ -34,6 +47,7 @@
     const f=flightRes.status==='fulfilled'?flightRes.value:{ok:false,data:{error:'Нислэгийн хайлт түр амжилтгүй.'}};
     const h=hotelRes.status==='fulfilled'?hotelRes.value:{ok:false,data:{error:'Буудлын хайлт түр амжилтгүй.'}};
     flights.innerHTML=f.ok&&f.data.offers?.length?'<div class="live-source">Үнэ: '+safe(f.data.source||'эх сурвалж')+'</div>'+f.data.offers.map(flightCard).join(''):'<div class="live-error">'+safe(f.data.error||'Энэ чиглэлд бодит санал одоогоор олдсонгүй.')+'</div>';
+    if(f.ok&&f.data.offers?.length) updateSellerCards(f.data.offers);
     hotels.innerHTML=h.ok&&h.data.offers?.length?'<div class="live-source">Үнэ: '+safe(h.data.source||'эх сурвалж')+'</div>'+h.data.offers.map(hotelCard).join(''):'<div class="live-error">'+safe(h.data.error||'Буудлын live санал одоогоор олдсонгүй.')+'</div>';
     status.textContent=(f.ok||h.ok)?'Сүүлд шалгасан: '+new Date().toLocaleString('mn-MN')+' · Үнэ өөрчлөгдөж болзошгүй.':'Үнэ авах тохиргоо эсвэл эх сурвалжийн хариуг шалгана уу.';
   }
