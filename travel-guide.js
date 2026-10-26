@@ -18,15 +18,11 @@
     close();return html||'<p>Зөвлөгөө үүссэнгүй. Дахин оролдоно уу.</p>';
   }
   async function buildGuide(){
-    const from=$('searchFrom')?.value?.trim()||'Улаанбаатар';
-    const to=$('searchTo')?.value?.trim();
-    const depart=$('searchDepart')?.value||'огноо сонгоогүй';
-    const back=$('searchReturn')?.value||'нэг тал';
-    const people=$('searchTravelers')?.value||'1';
+    const brief=$('travelBrief')?.value?.trim();
     const hub=$('guideHub'), content=$('guideContent'), title=$('guideTitle'), sources=$('guideSources');
-    if(!to)return;
+    if(!brief)return;
     hub.hidden=false;
-    title.textContent=from+' → '+to+' аяллын цогц гарын авлага';
+    title.textContent='Таны аяллын цогц гарын авлага';
     content.innerHTML='<div class="guide-loading"><span></span><b>Хамгийн сүүлийн үеийн эх сурвалжаас шалгаж байна…</b><small>Маршрут, виз, замын нөхцөл, үзвэр, хоол, байр болон захиалгын холбоосыг нэгтгэж байна.</small></div>';
     sources.hidden=true;sources.innerHTML='';
     try{
@@ -47,6 +43,6 @@
   }
   document.addEventListener('DOMContentLoaded',()=>{
     const form=$('tripSearch');
-    if(form)form.addEventListener('submit',()=>window.setTimeout(buildGuide,80));
+    if(form)form.addEventListener('submit',(event)=>{event.preventDefault();event.stopImmediatePropagation();buildGuide();},true);
   });
 })();
