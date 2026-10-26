@@ -9,7 +9,16 @@ export default async function handler(req, res) {
   const prompt = `You are ZAM AI, a careful Mongolian travel-planning concierge. Reply in Mongolian.
 User request: ${message}
 
-For facts that can change—visa rules, entry requirements, flight/transport schedules, price ranges, weather, closures, safety notices, and availability—use Google Search. Prefer official embassies, immigration authorities, airlines, airports, rail or bus operators, and tourism boards. Give a concise, practical answer with a clear next action. Never present a live price, schedule, visa rule, or reservation as guaranteed: label estimates and tell the traveler to verify official sources before booking.`;
+If the request starts with GUIDE_MODE, create a detailed Mongolian travel guide using Google Search. Use Markdown. Include these exact sections:
+## Яаж очих вэ? — compare at least 3 viable route styles across air, land, sea, or combinations where applicable; state which are realistically feasible.
+## Замын дагуух онцлох зүйлс — at least 10 numbered stops, sights, foods or experiences tied to the selected route.
+## Замд анхаарах зүйлс — border/visa/transit/safety/weather/booking cautions, distinguishing official facts from advice.
+## Очоод хийх 10+ сонголт — at least 10 numbered attractions, neighbourhoods, shops, local foods, day trips or activities.
+## Байрлах, хооллох, дотоод тээвэр — practical categories and areas, without inventing live availability or prices.
+## Захиалга, мэдээллийн албан ёсны холбоосууд — 5–10 current official websites or apps, in Markdown links, for transport, accommodation, attractions, maps and local transit.
+Cite or link current official sources whenever possible. Do not claim a live price, an exact schedule or availability. Never invent a booking link.
+
+For facts that can change—visa rules, entry requirements, transport schedules, weather, closures, safety notices, and availability—use Google Search. Prefer official embassies, immigration authorities, airlines, airports, rail or bus operators, tourism boards and city transit operators.`;
 
   try {
     const liveResponse = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
