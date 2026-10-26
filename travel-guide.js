@@ -30,7 +30,8 @@
       const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message})});
       const data=await response.json();
       if(!response.ok)throw new Error(data.error||'Зөвлөгөө татаж чадсангүй.');
-      content.innerHTML=renderMarkdown(data.answer);
+      const isStructured=/^##?\s+/m.test(String(data.answer||''));
+      content.innerHTML=isStructured?renderMarkdown(data.answer):'<div class="guide-fallback"><b>Зөвлөмжийн хариу</b><p>'+esc(data.answer||'Дэлгэрэнгүй хариулт үүссэнгүй.')+'</p><small>Дараа нь “Миний аяллын гарын авлагыг бүтээ” товчийг дахин дарж, эх сурвалжтай бүрэн guide авна уу.</small></div>';
       if(data.notice)content.insertAdjacentHTML('afterbegin','<div class="guide-notice">'+esc(data.notice)+'</div>');
       if(Array.isArray(data.sources)&&data.sources.length){
         sources.hidden=false;
