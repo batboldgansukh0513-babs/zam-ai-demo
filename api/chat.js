@@ -50,8 +50,8 @@ For facts that can change—visa rules, entry requirements, transport schedules,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt + '\nGoogle Search is temporarily unavailable. Give only general planning guidance; do not claim live facts.' }] }],
-        generationConfig: { maxOutputTokens: 600, temperature: 0.4 }
+        contents: [{ parts: [{ text: prompt + '\nGoogle Search is temporarily unavailable. Still return a complete, well-structured Mongolian Markdown guide using every required GUIDE_MODE heading and at least 10 numbered arrival ideas. Do not begin mid-sentence, do not use partial fragments, and do not claim any live schedule, availability, price, visa rule, opening hour, or current closure. Clearly label it as general planning guidance.' }] }],
+        generationConfig: { maxOutputTokens: 1800, temperature: 0.35 }
       })
     });
     const fallbackData = await fallbackResponse.json();
