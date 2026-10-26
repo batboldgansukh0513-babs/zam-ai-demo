@@ -26,7 +26,7 @@
     content.innerHTML='<div class="guide-loading"><span></span><b>Хамгийн сүүлийн үеийн эх сурвалжаас шалгаж байна…</b><small>Маршрут, виз, замын нөхцөл, үзвэр, хоол, байр болон захиалгын холбоосыг нэгтгэж байна.</small></div>';
     sources.hidden=true;sources.innerHTML='';
     try{
-      const message='GUIDE_MODE\\n'+brief+'\\nГазар, агаар, усан зам болон холимог бүх бодит боломжийг шалгаж, Монгол аялагчид зориулсан маш нарийн цогц зөвлөгөө гарга.';
+      const message='GUIDE_MODE\n'+brief+'\nГазар, агаар, усан зам болон холимог бүх бодит боломжийг шалгаж, Монгол аялагчид зориулсан маш нарийн цогц зөвлөгөө гарга.';
       const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message})});
       const data=await response.json();
       if(!response.ok)throw new Error(data.error||'Зөвлөгөө татаж чадсангүй.');
