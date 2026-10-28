@@ -182,3 +182,12 @@ header .brand.brand-mascot img{
 .guide-route-choice:hover,.guide-route-choice.selected{border-color:#e7bc62;background:rgba(231,188,98,.14)}
 .guide-route-choice b,.guide-route-choice small,.guide-route-choice em{display:block}.guide-route-choice b{color:#f3cf80;font-size:10px}.guide-route-choice small{margin-top:5px;color:#cbd9d1;font-size:9px}.guide-route-choice em{margin-top:7px;color:#9db2a6;font-size:8px;line-height:1.4;font-style:normal}
 @media(max-width:700px){.route-choice-panel>div{grid-template-columns:1fr}}
+
+
+/* Clear, visible starting point for the single travel chat. */
+.guide-start{grid-column:1/-1;display:grid;gap:11px;min-height:150px;align-content:center;padding:18px 4px;color:#dce7df}
+.guide-start b{color:#f3cf80;font:22px 'DM Serif Display',serif}
+.guide-start p{margin:0;max-width:540px;color:#c8d7ce;font-size:11px;line-height:1.6}
+.guide-start button{display:flex;align-items:center;justify-content:space-between;gap:14px;width:min(100%,420px);padding:12px 14px;border:1px solid rgba(241,203,120,.45);border-radius:12px;background:rgba(241,203,120,.1);color:#fff0bc;font:700 11px Mulish,sans-serif;text-align:left;cursor:pointer}
+.guide-start button:hover{background:rgba(241,203,120,.19);border-color:#f3cf80}
+.guide-start button span{font-size:17px;line-height:1}
