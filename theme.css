@@ -169,3 +169,16 @@ header .brand.brand-mascot img{
 
 /* Public-source web collection preview */
 .scrape-summary{grid-column:1/-1;margin-bottom:12px;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,.15)}.scrape-summary span{color:#85dbd0;font:8px 'DM Mono',monospace;letter-spacing:.14em}.scrape-summary h3{margin:7px 0!important;color:#f1ca75!important;font-size:21px!important}.scrape-summary p{margin:0!important}.scrape-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.scrape-card{min-width:0;padding:15px;border:1px solid rgba(151,217,207,.24);border-radius:13px;background:rgba(255,255,255,.045)}.scrape-card>span{display:block;color:#82d8ce;font:8px 'DM Mono',monospace;letter-spacing:.08em}.scrape-card h4{margin:8px 0 7px!important;color:#f2d28b!important;font-size:13px!important}.scrape-card p{margin:0 0 12px!important;color:#cad9d0!important;font-size:10px!important;line-height:1.55!important}.scrape-card a{font-size:10px}.scrape-unavailable{opacity:.72}@media(max-width:700px){.scrape-grid{grid-template-columns:1fr}}
+
+/* One-chat interaction: ZAM chatbot is the only entry point. */
+.guide-entry{display:none!important}
+.zam-chat-message{margin:8px 0;padding:9px 10px;border-radius:12px;font-size:10px;line-height:1.48;max-width:94%}
+.zam-chat-message.bot{background:rgba(119,218,202,.13);border:1px solid rgba(124,222,207,.22);color:#d8eae3}
+.zam-chat-message.user{margin-left:auto;background:rgba(239,196,111,.16);border:1px solid rgba(239,196,111,.25);color:#f7e7bc}
+.route-choice-panel{grid-column:1/-1;margin-bottom:16px;padding:14px;border:1px solid rgba(241,203,120,.32);border-radius:14px;background:rgba(255,255,255,.04)}
+.route-choice-panel>span{display:block;margin-bottom:9px;color:#85ddd2;font:8px 'DM Mono',monospace;letter-spacing:.1em}
+.route-choice-panel>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.guide-route-choice{min-width:0;padding:12px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(7,18,18,.38);color:#e3eee6;text-align:left;cursor:pointer}
+.guide-route-choice:hover,.guide-route-choice.selected{border-color:#e7bc62;background:rgba(231,188,98,.14)}
+.guide-route-choice b,.guide-route-choice small,.guide-route-choice em{display:block}.guide-route-choice b{color:#f3cf80;font-size:10px}.guide-route-choice small{margin-top:5px;color:#cbd9d1;font-size:9px}.guide-route-choice em{margin-top:7px;color:#9db2a6;font-size:8px;line-height:1.4;font-style:normal}
+@media(max-width:700px){.route-choice-panel>div{grid-template-columns:1fr}}
