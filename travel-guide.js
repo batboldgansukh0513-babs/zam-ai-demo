@@ -49,7 +49,7 @@
   });
   document.addEventListener('DOMContentLoaded',()=>{
     const messages=$('messages'),form=$('chatForm'),input=$('chatInput');
-    if(messages&&!messages.children.length)addMessage('bot','Сайн байна уу. Хаашаа явах, хэд хоног, юу сонирхдгоо бичээрэй. Би газар, агаар, усан замын боломжуудыг гаргана.');
+    if(messages){messages.innerHTML='';addMessage('bot','Сайн байна уу. Хаашаа явах, хэд хоног, юу сонирхдгоо бичээрэй. Би газар, агаар, усан замын боломжуудыг гаргана.');}
     if(input)input.placeholder='Жишээ: Япон руу 7 хоног, хоол ба аниме сонирхно';
     if(form)form.addEventListener('submit',event=>{
       event.preventDefault();event.stopImmediatePropagation();
