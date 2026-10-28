@@ -48,13 +48,28 @@
     addMessage('bot','Сонголтыг хадгаллаа. Одоо замдаа үзэх газар, хоол, байр эсвэл визийн талаар асууж болно.');
   });
   document.addEventListener('DOMContentLoaded',()=>{
-    const messages=$('messages'),form=$('chatForm'),input=$('chatInput');
+    const messages=$('messages'),form=$('chatForm'),input=$('chatInput'),content=$('guideContent');
+    const submitBrief=brief=>{
+      const value=String(brief||'').trim();if(!value)return;
+      addMessage('user',value);if(input)input.value='';buildGuide(value);
+    };
     if(messages){messages.innerHTML='';addMessage('bot','Сайн байна уу. Хаашаа явах, хэд хоног, юу сонирхдгоо бичээрэй. Би газар, агаар, усан замын боломжуудыг гаргана.');}
     if(input)input.placeholder='Жишээ: Япон руу 7 хоног, хоол ба аниме сонирхно';
+    if(content)content.innerHTML='<div class="guide-start"><b>Аяллаа эхлүүлье</b><p>Зүүн талын чатанд чиглэлээ бичээд сумтай товчийг дарна уу. Эсвэл жишээг шууд туршиж болно.</p><button type="button" data-guide-preset="Япон руу 7 хоног, хоол ба аниме сонирхно">Япон руу 7 хоног аялъя <span>→</span></button><button type="button" data-guide-preset="Солонгос руу 5 хоног, хоол ба далайн эрэг сонирхно">Солонгос руу 5 хоног аялъя <span>→</span></button></div>';
     if(form)form.addEventListener('submit',event=>{
+      event.preventDefault();event.stopImmediatePropagation();submitBrief(input?.value);
+    },true);
+    document.addEventListener('click',event=>{
+      const preset=event.target.closest('[data-guide-preset],[data-prompt]');
+      if(!preset)return;
       event.preventDefault();event.stopImmediatePropagation();
-      const brief=input?.value?.trim();if(!brief)return;
-      addMessage('user',brief);input.value='';buildGuide(brief);
+      submitBrief(preset.dataset.guidePreset||preset.dataset.prompt);
+    },true);
+    const newChat=$('newChat');
+    if(newChat)newChat.addEventListener('click',event=>{
+      event.preventDefault();event.stopImmediatePropagation();
+      if(messages){messages.innerHTML='';addMessage('bot','Шинэ аяллаа бичээрэй. Би эхлээд явах хэв маягийн сонголтуудыг гаргана.');}
+      if(content)content.innerHTML='<div class="guide-start"><b>Шинэ аялал эхлүүлье</b><p>Хаашаа, хэд хоног, юу сонирхдгоо бичээд сумтай товчийг дарна уу.</p></div>';
     },true);
   });
 })();
