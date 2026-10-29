@@ -272,3 +272,6 @@ main.planner>.chat-rail .legacy-chat{background:transparent!important}
 @media(min-width:901px){main.planner>.chat-rail .messages{height:360px!important;min-height:360px!important}}
 .guide-hub-head{background:linear-gradient(90deg,rgba(2,70,66,.95) 0%,rgba(5,104,97,.82) 49%,rgba(5,104,97,.12) 100%),url('assets/travel-hero.jpg') center/cover!important}
 .guide-hub-head:after{display:none!important}.guide-hub-head:before{background:#fff5c7!important}
+
+/* Browser-only travel advisor status. */
+.demo-mode{display:grid;gap:7px;margin:18px 0;padding:14px 16px;border:1px dashed #7dc8ba;border-radius:13px;background:#effaf6;color:#235b54}.demo-mode span{color:#08796e;font:8px 'DM Mono',monospace;letter-spacing:.13em}.demo-mode b{font-size:11px;line-height:1.5}.demo-mode small{color:#66817b;font-size:9px;line-height:1.5}
