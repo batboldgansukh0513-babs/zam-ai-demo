@@ -223,3 +223,16 @@ header .brand.brand-mascot img{
 .plan-next b{color:#dbe8df;font-size:10px;line-height:1.5}.plan-next strong{color:#f5cf79}.plan-next button{flex:none;border:0;border-radius:999px;background:#e7bc62;color:#18251f;padding:10px 13px;font:800 9px Mulish,sans-serif;cursor:pointer}
 @media(max-width:800px){.plan-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.daily-roadmap article{grid-template-columns:1fr}.plan-choice{justify-self:start}.journey-node b{font-size:8px}}
 @media(max-width:560px){.journey-line{grid-template-columns:1fr;gap:9px;padding-left:7px}.journey-line:before{top:24px;bottom:24px;left:25px;right:auto;width:2px;height:auto}.journey-node{grid-template-columns:38px 1fr auto;justify-items:start;text-align:left}.journey-node b{align-self:center}.journey-node small{align-self:center}.plan-checks,.official-links{grid-template-columns:1fr}.plan-next{display:grid}.plan-next button{justify-self:start}}
+
+
+/* Transport-specific route variants */
+.transport-variants{display:grid;gap:12px;padding:16px;border:1px solid rgba(126,218,205,.25);border-radius:14px;background:linear-gradient(120deg,rgba(67,177,164,.1),rgba(235,190,93,.06))}
+.transport-variants>div:first-child>span,.transport-details>span{color:#82ddd1;font:8px 'DM Mono',monospace;letter-spacing:.12em}
+.transport-variants h4{margin:6px 0;color:#f2cf82;font-size:15px}.transport-variants p{margin:0!important;color:#d0ded6!important;font-size:10px!important}
+.transport-variant-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.transport-variant{display:grid;gap:6px;padding:13px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(7,18,18,.42);color:#e5eee8;text-align:left;cursor:pointer}
+.transport-variant:hover,.transport-variant.is-active{border-color:#edc266;background:rgba(237,194,102,.14);box-shadow:inset 3px 0 #edc266}
+.transport-variant small{color:#92dfd5;font:8px 'DM Mono',monospace;line-height:1.4}.transport-variant b{color:#f5d181;font-size:11px}.transport-variant em{color:#cbd9d1;font-size:9px;font-style:normal;line-height:1.45}
+.transport-details{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-items:center;padding:12px;border-left:3px solid #e7bc62;border-radius:8px;background:rgba(255,255,255,.05)}
+.transport-details>span{grid-row:1/4}.transport-details b{color:#f5d181;font-size:11px}.transport-details p{margin:3px 0!important;color:#e1ebe5!important}.transport-details small{color:#9acfc5;font-size:9px}
+@media(max-width:600px){.transport-variant-grid{grid-template-columns:1fr}.transport-details{grid-template-columns:1fr}.transport-details>span{grid-row:auto}}
