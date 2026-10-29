@@ -266,3 +266,9 @@ main.planner{display:grid!important;grid-template-columns:340px minmax(0,1fr)!im
 /* Ensure the chat rail follows the light editorial palette. */
 main.planner>.chat-rail{background:#f9fcf9!important;color:#173c39!important;box-shadow:12px 0 28px rgba(9,75,68,.06)!important}
 main.planner>.chat-rail .legacy-chat{background:transparent!important}
+
+
+/* Hero artwork and a taller, easier-to-read assistant panel. */
+@media(min-width:901px){main.planner>.chat-rail .messages{height:360px!important;min-height:360px!important}}
+.guide-hub-head{background:linear-gradient(90deg,rgba(2,70,66,.95) 0%,rgba(5,104,97,.82) 49%,rgba(5,104,97,.12) 100%),url('assets/travel-hero.jpg') center/cover!important}
+.guide-hub-head:after{display:none!important}.guide-hub-head:before{background:#fff5c7!important}
