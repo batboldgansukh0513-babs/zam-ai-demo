@@ -24,6 +24,33 @@
     const messages=$('messages');if(!messages)return;
     const div=document.createElement('div');div.className='zam-chat-message '+who;div.textContent=text;messages.appendChild(div);messages.scrollTop=messages.scrollHeight;
   };
+  const transportVariants=(choice,kind)=>{
+    const isJapan=kind==='japan', isKorea=kind==='korea';
+    const country=isJapan?'Япон':isKorea?'Солонгос':'очих улс';
+    const air= isJapan ? [
+      ['Шууд нислэг + airport express','Улаанбаатар → Токио/Осака → Airport express → буудал','Онгоц → нисэх буудлын галт тэрэг → метро/такси'],
+      ['Дамжин нислэг + хотын галт тэрэг','Улаанбаатар → Сөүл → Токио → буудал','Онгоц → дамжин нислэг → airport rail → метро']
+    ] : [
+      ['Шууд нислэг + AREX','Улаанбаатар → Сөүл → AREX → буудал','Онгоц → airport rail → метро/такси'],
+      ['Дамжин нислэг + буух хотын тээвэр','Улаанбаатар → дамжин өнгөрөх хот → Сөүл/Пусан → буудал','Онгоц → airport bus/rail → метро']
+    ];
+    const mixed=isJapan ? [
+      ['Сөүл stopover + Япон','Улаанбаатар → Сөүл → Токио/Осака → буудал','Онгоц → хотын метро → дамжин нислэг → airport express'],
+      ['Сөүл + Пусан + Фүкүока','Улаанбаатар → Сөүл → KTX → Пусан → ferry → Фүкүока','Онгоц → метро → KTX → усан онгоц → Shinkansen/дотоодын нислэг']
+    ] : [
+      ['Сөүл + Пусан','Улаанбаатар → Сөүл → KTX → Пусан → буудал','Онгоц → airport rail → KTX → метро'],
+      ['Очих хот + ойрын хот','Улаанбаатар → Сөүл/Пусан → хот дотор → ойрын хот','Онгоц → метро → галт тэрэг/автобус']
+    ];
+    const sea=isJapan ? [
+      ['Сөүл → Пусан → Фүкүока → Токио','Улаанбаатар → Сөүл → KTX → Пусан → ferry → Фүкүока → Токио','Онгоц → галт тэрэг → усан онгоц → Shinkansen'],
+      ['Хятадаар дамжих урт аялал','Улаанбаатар → Эрээн → Бээжин → Шанхай → Япон','Галт тэрэг/автобус → хот доторх тээвэр → усан онгоц; виз, хилийн нөхцөлийг тус бүр шалгана']
+    ] : [
+      ['Хятад/Японоор дамжин очих','Улаанбаатар → дамжин өнгөрөх хот → боомт → Сөүл/Пусан','Галт тэрэг/автобус → усан онгоц → хотын тээвэр'],
+      ['Сөүл → Пусан далайн эргийн аялал','Улаанбаатар → Сөүл → KTX/автобус → Пусан','Онгоц → галт тэрэг/автобус → метро']
+    ];
+    const list=choice.includes('далай')?sea:choice.includes('газар')?mixed:air;
+    return '<section class="transport-variants"><div><span>ТЭЭВРИЙН ДАРААЛЛАА СОНГООРОЙ</span><h4>'+esc(country)+' чиглэлийн боломжит урсгалууд</h4><p>Хувилбар бүрийн цаг, тасалбар болон хил/визийн нөхцөлийг тус тусад нь албан ёсны оператороос баталгаажуулна уу.</p></div><div class="transport-variant-grid">'+list.map((x,i)=>'<button type="button" class="transport-variant '+(i===0?'is-active':'')+'" data-variant-title="'+esc(x[0])+'" data-variant-route="'+esc(x[1])+'" data-variant-mode="'+esc(x[2])+'"><small>0'+(i+1)+' · '+esc(x[2])+'</small><b>'+esc(x[0])+'</b><em>'+esc(x[1])+'</em></button>').join('')+'</div><div class="transport-details"><span>СОНГОСОН ДАРААЛАЛ</span><b id="selectedVariantTitle">'+esc(list[0][0])+'</b><p id="selectedVariantRoute">'+esc(list[0][1])+'</p><small id="selectedVariantMode">'+esc(list[0][2])+'</small></div></section>';
+  };
   const fullPlan=(choice,kind)=>{
     const japan=kind==='japan';
     const place=japan?'Япон':'Солонгос';
@@ -54,6 +81,7 @@
     ];
     return '<section class="complete-plan" aria-label="Бүрэн аяллын зураглал">'+
       '<div class="complete-plan-head"><span>ТАНЫ СОНГОЛТ · '+esc(choice)+'</span><h3>'+esc(place)+' руу хийх бүрэн аяллын зураглал</h3><p>Энэ бол сонгосон чиглэлээрээ цааш явах дараалал. Хугацаа, виз, тээврийн бодит нөхцөлийг доорх албан эх сурвалжаар баталгаажуулна уу.</p></div>'+
+      transportVariants(choice,kind)+
       '<div class="journey-line">'+road.map((x,i)=>'<div class="journey-node '+(i===0?'start':'')+'"><i>'+(['⌂','✈','⌁','◉','⌂'][i]||'•')+'</i><b>'+esc(x)+'</b><small>'+String(i+1).padStart(2,'0')+'</small></div>').join('')+'</div>'+
       '<section class="plan-section"><span>01 · ЯВАХААС ӨМНӨ</span><div class="plan-checks"><label><input type="checkbox"> Паспортын хүчинтэй хугацаа</label><label><input type="checkbox"> Виз ба дамжин өнгөрөх нөхцөл</label><label><input type="checkbox"> Даатгал</label><label><input type="checkbox"> Тээврийн цаг, ачааны дүрэм</label><label><input type="checkbox"> Буудлын баталгаа</label><label><input type="checkbox"> Офлайн газрын зураг, eSIM</label></div></section>'+
       '<section class="plan-section"><span>02 · ӨДӨР БҮРИЙН УРСГАЛ</span><div class="daily-roadmap">'+days.map((d,i)=>'<article><b>'+esc(d[0])+'</b><p>'+esc(d[1])+'</p><button type="button" class="plan-choice" data-plan-choice="'+esc(d[0])+'-ийн хөтөлбөр">Энэ өдрийг нарийвчлах →</button></article>').join('')+'</div></section>'+
@@ -89,6 +117,17 @@
       addMessage('user',choice.dataset.choice);
       addMessage('bot','Сонголтыг хадгаллаа. Одоо виз, замын дараалал, өдөр тутмын хөтөлбөр болон албан эх сурвалжууд доор бүрэн гарлаа.');
       document.querySelector('.complete-plan')?.scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+    const variant=event.target.closest('.transport-variant');
+    if(variant){
+      document.querySelectorAll('.transport-variant').forEach(x=>x.classList.toggle('is-active',x===variant));
+      const title=$('selectedVariantTitle'),route=$('selectedVariantRoute'),mode=$('selectedVariantMode');
+      if(title)title.textContent=variant.dataset.variantTitle||'';
+      if(route)route.textContent=variant.dataset.variantRoute||'';
+      if(mode)mode.textContent=variant.dataset.variantMode||'';
+      addMessage('user',variant.dataset.variantTitle||'Тээврийн дараалал');
+      addMessage('bot','Тээврийн дарааллыг сонголоо. Дараах timeline болон checklist-ээ энэ урсгалаар үргэлжлүүлээрэй.');
       return;
     }
     const plan=event.target.closest('[data-plan-choice]');
