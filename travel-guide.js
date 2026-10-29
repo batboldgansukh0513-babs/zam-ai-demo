@@ -90,23 +90,24 @@
       '<div class="plan-next"><b>Дараагийн алхам: <strong>'+esc(cities)+'</strong> чиглэлийн тээвэр, виз ба буудлын нөхцөлийг дээрх эх сурвалжаас нягтал.</b><button type="button" data-guide-preset="'+esc(place)+' руу явахад виз, буудал болон хот доторх тээврийн дэлгэрэнгүй зөвлөгөө өгөөч">Виз, буудал, тээврийн дэлгэрэнгүйг асуух →</button></div>'+
     '</section>';
   };
-  async function buildGuide(brief){
+  const offlineSources=kind=>kind==='japan'?[['Албан аяллын мэдээлэл','Japan National Tourism Organization','https://www.japan.travel/en/'],['Төмөр зам','Japan Rail Pass','https://japanrailpass.net/en/'],['Хот доторх тээвэр','Tokyo Metro','https://www.tokyometro.jp/en/'],['Визийн албан эх сурвалж','Japan eVISA','https://www.evisa.mofa.go.jp/index']]:kind==='korea'?[['Албан аяллын мэдээлэл','VISITKOREA','https://english.visitkorea.or.kr/'],['Галт тэрэг','KORAIL','https://www.letskorail.com/ebizbf/EbizBfAbout_TrainGuide.do'],['Хотын зөвлөмж','Visit Seoul','https://english.visitseoul.net/'],['Нэвтрэх нөхцөл','K-ETA','https://www.k-eta.go.kr/portal/apply/index.do']]:[['Аяллын мэдээлэл','Google Travel','https://www.google.com/travel/'],['Визийн мэдээлэл','IATA Travel Centre','https://www.iatatravelcentre.com/']];
+  const localReply=brief=>{
+    if(/виз|passport|паспорт/i.test(brief))return 'Виз ба паспортын шаардлагыг аяллаас өмнө заавал албан эх сурвалжаас баталгаажуулна уу.';
+    if(/буудал|hotel|зочид/i.test(brief))return 'Буудлыг төв тээврийн буудалтай ойр, үнэгүй цуцлалттай эсэхийг шалган сонгохыг санал болгож байна.';
+    if(/хоол|food|restaurant/i.test(brief))return 'Өдрийн хөтөлбөртөө нэг зах, нэг орон нутгийн хоолны газар, нэг урьдчилж захиалдаг ресторан нэмэхэд тохиромжтой.';
+    if(/тээвэр|train|bus|такси/i.test(brief))return 'Тээврийн сонголтыг доорх маршрутнаас сонгоорой. Хот доторх карт болон airport rail-ийг эхний өдөрт багтаагаарай.';
+    return 'API-гүй demo зөвлөх таны бичсэн чиглэлийг таньж, боломжит аяллын урсгалыг гаргалаа.';
+  };
+  function buildGuide(brief){
     const hub=$('guideHub'),content=$('guideContent'),title=$('guideTitle'),sources=$('guideSources');
-    hub.hidden=false;title.textContent='Таны аяллын сонголтууд ба эх сурвалж';
-    content.innerHTML='<div class="guide-loading"><span></span><b>Албан ёсны веб эх сурвалжуудыг шалгаж байна…</b><small>Маршрутын сонголт болон бодит эх сурвалжийг нэгтгэж байна.</small></div>';
+    const kind=destination(brief);activeKind=kind;
+    const country=kind==='japan'?'Япон':kind==='korea'?'Солонгос':'таны сонгосон чиглэл';
+    const sourcesList=offlineSources(kind);
+    hub.hidden=false;title.textContent='Таны API-гүй demo аяллын зөвлөх';
     sources.hidden=true;sources.innerHTML='';
-    try{
-      const response=await fetch('/api/sources?brief='+encodeURIComponent(brief));
-      const data=await response.json();
-      if(!response.ok)throw new Error(data.error||'Эх сурвалж уншиж чадсангүй.');
-      const kind=destination(brief);activeKind=kind;
-      content.innerHTML=options(kind)+'<div class="scrape-summary"><span>ЭХ СУРВАЛЖИЙН ТОВЧ МЭДЭЭЛЭЛ</span><h3>'+esc(data.destination==='japan'?'Япон':'Солонгос')+' чиглэлийн баталгаатай эх сурвалж</h3><p>'+esc(data.notice)+'</p></div><div class="scrape-grid">'+(data.sources||[]).map(card).join('')+'</div>';
-      addMessage('bot','Танд 3 аяллын хэв маягийн сонголт гаргалаа. Нэгийг нь сонгоод цааш дэлгэрүүлж асуугаарай.');
-      hub.scrollIntoView({behavior:'smooth',block:'start'});
-    }catch(error){
-      content.innerHTML='<div class="guide-error"><b>Эх сурвалжийг одоогоор нэгтгэж чадсангүй.</b><span>'+esc(error.message)+'</span><small>Япон эсвэл Солонгос чиглэлээр дахин туршина уу.</small></div>';
-      addMessage('bot','Одоогоор эх сурвалжийн хүсэлт амжилтгүй боллоо. Япон эсвэл Солонгос гэж тодруулж дахин бичээрэй.');
-    }
+    content.innerHTML=options(kind)+'<div class="demo-mode"><span>DEMO MODE · API АШИГЛАХГҮЙ</span><b>'+esc(localReply(brief))+'</b><small>Хариулт нь хөтөч дээр урьдчилж бэлдсэн аяллын дүрмээр гарч байна. Үнэ, виз, хуваарийг бодит захиалга хийхээсээ өмнө доорх албан эх сурвалжаас нягтална уу.</small></div><div class="scrape-summary"><span>УРЬДЧИЛЖ БЭЛДСЭН ЛАВЛАХ ХОЛБООС</span><h3>'+esc(country)+' чиглэлийн аяллын эх сурвалж</h3><p>Эдгээр холбоосыг API ашиглахгүй demo хувилбарт тогтмол харуулна.</p></div><div class="scrape-grid">'+sourcesList.map(s=>'<article class="scrape-card"><span>'+esc(s[0])+'</span><h4>'+esc(s[1])+'</h4><p>Аяллаа баталгаажуулахын өмнө энэ албан хуудаснаас сүүлийн нөхцөлийг нягтална уу.</p><a href="'+esc(s[2])+'" target="_blank" rel="noopener noreferrer">'+esc(s[1])+' дээр нээх ↗</a></article>').join('')+'</div>';
+    addMessage('bot',localReply(brief)+' Одоо 3 аяллын хэв маягаас нэгийг сонгоорой.');
+    hub.scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',event=>{
     const choice=event.target.closest('.guide-route-choice');
@@ -142,7 +143,7 @@
       const value=String(brief||'').trim();if(!value)return;
       addMessage('user',value);if(input)input.value='';buildGuide(value);
     };
-    if(messages){messages.innerHTML='';addMessage('bot','Сайн байна уу. Хаашаа явах, хэд хоног, юу сонирхдгоо бичээрэй. Би газар, агаар, усан замын боломжуудыг гаргана.');}
+    if(messages){messages.innerHTML='';addMessage('bot','Сайн байна уу. Би API-гүй demo аяллын туслах. Хаашаа явах, хэд хоног, юу сонирхдгоо бичээрэй.');}
     if(input)input.placeholder='Жишээ: Япон руу 7 хоног, хоол ба аниме сонирхно';
     if(content)content.innerHTML='<div class="guide-start"><b>Аяллаа эхлүүлье</b><p>Зүүн талын чатанд чиглэлээ бичээд сумтай товчийг дарна уу. Эсвэл жишээг шууд туршиж болно.</p><button type="button" data-guide-preset="Япон руу 7 хоног, хоол ба аниме сонирхно">Япон руу 7 хоног аялъя <span>→</span></button><button type="button" data-guide-preset="Солонгос руу 5 хоног, хоол ба далайн эрэг сонирхно">Солонгос руу 5 хоног аялъя <span>→</span></button></div>';
     if(form)form.addEventListener('submit',event=>{
