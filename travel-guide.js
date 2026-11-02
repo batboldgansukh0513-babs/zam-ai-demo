@@ -3,6 +3,8 @@
   const esc=v=>String(v||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const destination=brief=>/япон|japan|tokyo|токио|osaka|осака|kyoto|киото/i.test(brief)?'japan':/солонгос|korea|seoul|сеул|busan|пусан/i.test(brief)?'korea':'other';
   let activeKind='other';
+  let selectedStops={};
+  try{selectedStops=JSON.parse(localStorage.getItem('zam-daily-stops')||'{}')}catch(_){selectedStops={}}
   const options=kind=>{
     const items=kind==='japan'?[
       ['Агаараар · хамгийн хурдан','Улаанбаатар → Токио/Осака','Очсон өдрөө хотын хөтөлбөртөө шууд орно.'],
@@ -51,6 +53,35 @@
     const list=choice.includes('далай')?sea:choice.includes('газар')?mixed:air;
     return '<section class="transport-variants"><div><span>ТЭЭВРИЙН ДАРААЛЛАА СОНГООРОЙ</span><h4>'+esc(country)+' чиглэлийн боломжит урсгалууд</h4><p>Хувилбар бүрийн цаг, тасалбар болон хил/визийн нөхцөлийг тус тусад нь албан ёсны оператороос баталгаажуулна уу.</p></div><div class="transport-variant-grid">'+list.map((x,i)=>'<button type="button" class="transport-variant '+(i===0?'is-active':'')+'" data-variant-title="'+esc(x[0])+'" data-variant-route="'+esc(x[1])+'" data-variant-mode="'+esc(x[2])+'"><small>0'+(i+1)+' · '+esc(x[2])+'</small><b>'+esc(x[0])+'</b><em>'+esc(x[1])+'</em></button>').join('')+'</div><div class="transport-details"><span>СОНГОСОН ДАРААЛАЛ</span><b id="selectedVariantTitle">'+esc(list[0][0])+'</b><p id="selectedVariantRoute">'+esc(list[0][1])+'</p><small id="selectedVariantMode">'+esc(list[0][2])+'</small></div></section>';
   };
+  const stopsFor=(kind,index)=>{
+    const japan=[
+      [['Shibuya Station','Airport express-аас буугаад буудал руу алхах'],['Hachikō Square','Оройн богино алхалт'],['Shibuya Sky','Оройн үзэмж · урьдчилж цаг шалга']],
+      [['Sensō-ji','Asakusa метроны буудлаас алхах'],['Nakamise-dori','Зах, амттан'],['Ueno Park','Asakusa → Ginza line / алхалт']],
+      [['Akihabara','Аниме, тоглоом, электроник'],['teamLab Planets','Урьдчилж цаг сонгох'],['Tsukiji Outer Market','Өглөө/өдрийн хоол']],
+      [['Kamakura','JR/орон нутгийн галт тэргээр өдрийн аялал'],['Hakone','Уул, онсэн, усан онгоц'],['Nikkō','Түүхэн сүм, байгаль']],
+      [['Meiji Jingu','Harajuku station-аас алхах'],['Harajuku','Takeshita Street'],['Shinjuku Gyoen','Цэцэрлэгт хүрээлэн']],
+      [['Ginza','Дэлгүүр, кафе'],['Odaiba','Далайн эрэг, орчин үеийн үзвэр'],['Yanaka','Тайван хуучин дүүрэг']],
+      [['Narita Express','Буудлаас нисэх буудал'],['Haneda Airport','Нисэх буудлын шалгалт'],['Duty-free','Ачаа болон гар тээшээ шалгах']]
+    ];
+    const korea=[
+      [['AREX','Нисэх буудлаас хот руу'],['Myeongdong','Оройн алхалт'],['Cheonggyecheon','Тайван алхах зам']],
+      [['Gyeongbokgung','Ордон · цагийн хуваарь шалга'],['Bukchon Hanok','Алхах дүүрэг'],['Insadong','Урлаг, цай, бэлэг дурсгал']],
+      [['Hongdae','Кафе, хөгжим, худалдаа'],['Gwangjang Market','Орон нутгийн хоол'],['Namsan Seoul Tower','Оройн үзэмж']],
+      [['KTX Seoul Station','Сөүл → Пусан'],['Haeundae','Далайн эрэг'],['Gamcheon Culture Village','Өнгөлөг дүүрэг']],
+      [['Airport Railroad','Буудлаас нисэх буудал'],['Incheon Airport','Check-in'],['Бэлэг дурсгал','Ачааны жингээ шалгах']]
+    ];
+    return (kind==='japan'?japan:korea)[index]||[];
+  };
+  const stopControls=(kind,index)=>{
+    const stops=stopsFor(kind,index), key=String(index+1), chosen=selectedStops[key]||[];
+    return '<div class="day-stop-picker" data-day-picker="'+key+'"><button type="button" class="open-day-stops" data-day-toggle="'+key+'">Өдрийн очих газруудыг сонгох <span>+</span></button><div class="day-stop-options" hidden>'+stops.map((s,i)=>'<button type="button" class="day-stop '+(chosen.includes(s[0])?'is-picked':'')+'" data-day="'+key+'" data-stop="'+esc(s[0])+'" data-note="'+esc(s[1])+'"><b>'+String(i+1).padStart(2,'0')+' · '+esc(s[0])+'</b><small>'+esc(s[1])+'</small></button>').join('')+'</div></div>';
+  };
+  const persistStops=()=>{try{localStorage.setItem('zam-daily-stops',JSON.stringify(selectedStops))}catch(_){}};
+  const updateStopSummary=()=>{
+    const target=$('selectedPlacesSummary');if(!target)return;
+    const rows=Object.entries(selectedStops).filter(([,v])=>v?.length).map(([day,places])=>'<div><b>'+esc(day)+'-р өдөр</b><span>'+places.map(esc).join(' · ')+'</span></div>');
+    target.innerHTML=rows.length?'<span>СОНГОСОН ОЧИХ ГАЗРУУД</span>'+rows.join(''):'<span>СОНГОСОН ОЧИХ ГАЗРУУД</span><p>Өдөр бүрээс очих газраа сонгоорой.</p>';
+  };
   const fullPlan=(choice,kind)=>{
     const japan=kind==='japan';
     const place=japan?'Япон':'Солонгос';
@@ -84,7 +115,7 @@
       transportVariants(choice,kind)+
       '<div class="journey-line">'+road.map((x,i)=>'<div class="journey-node '+(i===0?'start':'')+'"><i>'+(['⌂','✈','⌁','◉','⌂'][i]||'•')+'</i><b>'+esc(x)+'</b><small>'+String(i+1).padStart(2,'0')+'</small></div>').join('')+'</div>'+
       '<section class="plan-section"><span>01 · ЯВАХААС ӨМНӨ</span><div class="plan-checks"><label><input type="checkbox"> Паспортын хүчинтэй хугацаа</label><label><input type="checkbox"> Виз ба дамжин өнгөрөх нөхцөл</label><label><input type="checkbox"> Даатгал</label><label><input type="checkbox"> Тээврийн цаг, ачааны дүрэм</label><label><input type="checkbox"> Буудлын баталгаа</label><label><input type="checkbox"> Офлайн газрын зураг, eSIM</label></div></section>'+
-      '<section class="plan-section"><span>02 · ӨДӨР БҮРИЙН УРСГАЛ</span><div class="daily-roadmap">'+days.map((d,i)=>'<article><b>'+esc(d[0])+'</b><p>'+esc(d[1])+'</p><button type="button" class="plan-choice" data-plan-choice="'+esc(d[0])+'-ийн хөтөлбөр">Энэ өдрийг нарийвчлах →</button></article>').join('')+'</div></section>'+
+      '<section class="plan-section"><span>02 · ӨДӨР БҮРИЙН УРСГАЛ</span><div class="daily-roadmap">'+days.map((d,i)=>'<article class="day-plan-card"><b>'+esc(d[0])+'</b><p>'+esc(d[1])+'</p>'+stopControls(kind,i)+'</article>').join('')+'</div><div class="selected-places-summary" id="selectedPlacesSummary"></div></section>'+
       '<section class="plan-section"><span>03 · ОЧООД СОНГОЖ БОЛОХ 10 ГАЗАР</span><div class="idea-pills">'+ideas.map((x,i)=>'<button type="button" class="plan-choice" data-plan-choice="'+esc(x)+'-г хөтөлбөрт нэмэх">'+String(i+1).padStart(2,'0')+' · '+esc(x)+' +</button>').join('')+'</div></section>'+
       '<section class="plan-section"><span>04 · АЛБАН ЁСНЫ ЗАХИАЛАХ / ШАЛГАХ ХОЛБООС</span><div class="official-links">'+links.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener noreferrer"><b>'+esc(x[0])+'</b><em>Албан хуудсыг нээх ↗</em></a>').join('')+'</div></section>'+
       '<div class="plan-next"><b>Дараагийн алхам: <strong>'+esc(cities)+'</strong> чиглэлийн тээвэр, виз ба буудлын нөхцөлийг дээрх эх сурвалжаас нягтал.</b><button type="button" data-guide-preset="'+esc(place)+' руу явахад виз, буудал болон хот доторх тээврийн дэлгэрэнгүй зөвлөгөө өгөөч">Виз, буудал, тээврийн дэлгэрэнгүйг асуух →</button></div>'+
@@ -115,6 +146,7 @@
       document.querySelectorAll('.guide-route-choice').forEach(x=>x.classList.toggle('selected',x===choice));
       document.querySelector('.complete-plan')?.remove();
       choice.closest('.route-choice-panel')?.insertAdjacentHTML('afterend',fullPlan(choice.dataset.choice,activeKind));
+      updateStopSummary();
       addMessage('user',choice.dataset.choice);
       addMessage('bot','Сонголтыг хадгаллаа. Одоо виз, замын дараалал, өдөр тутмын хөтөлбөр болон албан эх сурвалжууд доор бүрэн гарлаа.');
       document.querySelector('.complete-plan')?.scrollIntoView({behavior:'smooth',block:'start'});
@@ -131,10 +163,28 @@
       addMessage('bot','Тээврийн дарааллыг сонголоо. Дараах timeline болон checklist-ээ энэ урсгалаар үргэлжлүүлээрэй.');
       return;
     }
+    const toggle=event.target.closest('[data-day-toggle]');
+    if(toggle){
+      const picker=toggle.closest('.day-stop-picker'), options=picker?.querySelector('.day-stop-options');
+      if(options){const open=options.hidden;options.hidden=!open;toggle.classList.toggle('is-open',open);toggle.querySelector('span').textContent=open?'−':'+';}
+      return;
+    }
+    const stop=event.target.closest('.day-stop');
+    if(stop){
+      const day=stop.dataset.day, place=stop.dataset.stop;
+      const list=selectedStops[day]||[];
+      selectedStops[day]=list.includes(place)?list.filter(x=>x!==place):[...list,place];
+      if(!selectedStops[day].length)delete selectedStops[day];
+      stop.classList.toggle('is-picked',(selectedStops[day]||[]).includes(place));
+      persistStops();updateStopSummary();
+      addMessage('user',place+' · '+(stop.dataset.note||''));
+      addMessage('bot',(selectedStops[day]||[]).includes(place)?'Энэ газрыг '+day+'-р өдрийн маршрутад нэмлээ.':'Энэ газрыг '+day+'-р өдрөөс хаслаа.');
+      return;
+    }
     const plan=event.target.closest('[data-plan-choice]');
     if(plan){
       addMessage('user',plan.dataset.planChoice);
-      addMessage('bot','Сонголтыг хөтөлбөрт тэмдэглэлээ. Тухайн өдрийн тээвэр, цаг, захиалгыг албан эх сурвалжаас нягталж үргэлжлүүлээрэй.');
+      addMessage('bot','Сонголтыг хөтөлбөрт тэмдэглэлээ.');
     }
   });
   document.addEventListener('DOMContentLoaded',()=>{
