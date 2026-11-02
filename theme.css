@@ -275,3 +275,10 @@ main.planner>.chat-rail .legacy-chat{background:transparent!important}
 
 /* Browser-only travel advisor status. */
 .demo-mode{display:grid;gap:7px;margin:18px 0;padding:14px 16px;border:1px dashed #7dc8ba;border-radius:13px;background:#effaf6;color:#235b54}.demo-mode span{color:#08796e;font:8px 'DM Mono',monospace;letter-spacing:.13em}.demo-mode b{font-size:11px;line-height:1.5}.demo-mode small{color:#66817b;font-size:9px;line-height:1.5}
+
+/* Interactive daily destination planner */
+.day-plan-card{grid-template-columns:145px minmax(0,1fr) minmax(190px,.7fr)!important}
+.day-stop-picker{justify-self:end;width:100%;max-width:250px}.open-day-stops{display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid #9bd5c9;border-radius:999px;background:#edf9f4;color:#07665d;padding:8px 10px;font:700 8px Mulish,sans-serif;cursor:pointer}.open-day-stops span{font-size:16px;line-height:.5}.open-day-stops.is-open{border-color:#efbc1b;background:#fff4c9}
+.day-stop-options{display:grid;gap:6px;margin-top:8px}.day-stop{padding:9px;border:1px solid #d6e9e2;border-radius:9px;background:#fff;color:#245850;text-align:left;cursor:pointer}.day-stop:hover,.day-stop.is-picked{border-color:#efbc1b;background:#fff8df}.day-stop b,.day-stop small{display:block}.day-stop b{font-size:9px}.day-stop small{margin-top:3px;color:#6f8983;font-size:8px;line-height:1.35}
+.selected-places-summary{display:grid;gap:7px;margin-top:14px;padding:13px;border-radius:11px;background:#f1faf6;border-left:3px solid #e8b417}.selected-places-summary>span{color:#0a776d;font:8px 'DM Mono',monospace;letter-spacing:.12em}.selected-places-summary div{display:flex;gap:10px;align-items:baseline}.selected-places-summary b{min-width:68px;color:#0a6259;font-size:9px}.selected-places-summary div span,.selected-places-summary p{margin:0;color:#627c76;font-size:9px;line-height:1.5}
+@media(max-width:800px){.day-plan-card{grid-template-columns:1fr!important}.day-stop-picker{justify-self:start;max-width:100%}}
